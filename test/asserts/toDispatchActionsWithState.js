@@ -23,7 +23,7 @@ describe('toDispatchActionsWithState', () => {
   it('should be function', () => { expect(toDispatchActionsWithState).toBeA('function'); });
 
   it('should call performAssertion with assertDispatchedActions as first argument', () => {
-    toDispatchActionsWithState(actualAction, expectedAction, spyDone, spyFail);
+    toDispatchActionsWithState(initialState, actualAction, expectedAction, spyDone, spyFail);
 
     expect(performAssertionObj.performAssertion).toHaveBeenCalledWith(
         assertDispatchedActionsObj.assertDispatchedActions,

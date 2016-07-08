@@ -25,7 +25,7 @@ describe('toNotDispatchActions', () => {
   it('should call toNotDispatchActionsWithState with initialState', () => {
     toNotDispatchActions(actualAction, expectedAction, spyDone, spyFail);
 
-    expect(assertions.toDispatchActionsWithState)
+    expect(assertions.toNotDispatchActionsWithState)
       .toHaveBeenCalledWith(initialState, actualAction, expectedAction, spyDone, spyFail);
   });
 
