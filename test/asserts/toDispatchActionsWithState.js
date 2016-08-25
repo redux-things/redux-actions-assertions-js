@@ -70,7 +70,7 @@ describe('toDispatchActionsWithState', () => {
       expect(stateFunction).toHaveBeenCalledWith(initialState);
     });
 
-    it('should call performAssertion with result of state function as initial state', () => {
+    it('should call performAssertion with result from state function as initial state', () => {
       toDispatchActionsWithState(
         stateFunction,
         actualAction,
