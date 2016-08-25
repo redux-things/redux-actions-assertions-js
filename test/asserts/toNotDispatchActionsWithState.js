@@ -10,9 +10,11 @@ describe('toNotDispatchActionsWithState', () => {
   const expectedAction = { expectedAction: 'expectedAction' };
   const spyDone = expect.createSpy();
   const spyFail = expect.createSpy();
+  const performAssertionResult = { result: 'result' };
 
   beforeEach(() => {
-    expect.spyOn(performAssertionObj, 'performAssertion');
+    expect.spyOn(performAssertionObj, 'performAssertion')
+          .andReturn(performAssertionResult);
     expect.spyOn(assertNotDispatchedActionsObj, 'assertNotDispatchedActions');
   });
 
@@ -26,12 +28,23 @@ describe('toNotDispatchActionsWithState', () => {
     toNotDispatchActionsWithState(initialState, actualAction, expectedAction, spyDone, spyFail);
 
     expect(performAssertionObj.performAssertion).toHaveBeenCalledWith(
-        assertNotDispatchedActionsObj.assertNotDispatchedActions,
-        initialState,
-        actualAction,
-        expectedAction,
-        spyDone,
-        spyFail
+      assertNotDispatchedActionsObj.assertNotDispatchedActions,
+      initialState,
+      actualAction,
+      expectedAction,
+      spyDone,
+      spyFail
       );
+  });
+
+  it('should return result of performAssertion', () => {
+    const result = toNotDispatchActionsWithState(
+      initialState,
+      actualAction,
+      expectedAction,
+      spyDone, spyFail
+    );
+
+    expect(result).toBe(performAssertionResult);
   });
 });
