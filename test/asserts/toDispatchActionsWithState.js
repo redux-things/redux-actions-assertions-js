@@ -2,10 +2,10 @@ import expect from 'expect';
 import * as performAssertionObj from '../../src/asserts/utils/performAssertion';
 import * as assertDispatchedActionsObj from '../../src/asserts/utils/assertDispatchedActions';
 import { toDispatchActionsWithState } from '../../src/asserts/toDispatchActionsWithState';
-import { getInitialStoreState } from '../../src/initialState';
+import { registerInitialStoreState, getInitialStoreState } from '../../src/initialState';
 
 describe('toDispatchActionsWithState', () => {
-  const initialState = getInitialStoreState();
+  let initialState;
   const actualAction = { actualAction: 'actualAction' };
   const expectedAction = { expectedAction: 'expectedAction' };
   const spyDone = expect.createSpy();
@@ -13,12 +13,15 @@ describe('toDispatchActionsWithState', () => {
   const performAssertionResult = { result: 'result' };
 
   beforeEach(() => {
+    registerInitialStoreState({ result: 'result' });
+    initialState = getInitialStoreState();
     expect.spyOn(performAssertionObj, 'performAssertion')
           .andReturn(performAssertionResult);
     expect.spyOn(assertDispatchedActionsObj, 'assertDispatchedActions');
   });
 
   afterEach(() => {
+    registerInitialStoreState(null);
     expect.restoreSpies();
   });
 
@@ -46,5 +49,43 @@ describe('toDispatchActionsWithState', () => {
     );
 
     expect(result).toBe(performAssertionResult);
+  });
+
+  describe('when state is a function', () => {
+    const stateFunctionResult = { newResult: 'newResult' };
+    let stateFunction;
+
+    beforeEach(() => {
+      stateFunction = expect.createSpy().andReturn(stateFunctionResult);
+    });
+
+    it('should execute it with initial state as argument', () => {
+      toDispatchActionsWithState(
+        stateFunction,
+        actualAction,
+        expectedAction,
+        spyDone, spyFail
+      );
+
+      expect(stateFunction).toHaveBeenCalledWith(initialState);
+    });
+
+    it('should call performAssertion with result of state function as initial state', () => {
+      toDispatchActionsWithState(
+        stateFunction,
+        actualAction,
+        expectedAction,
+        spyDone, spyFail
+      );
+
+      expect(performAssertionObj.performAssertion).toHaveBeenCalledWith(
+        assertDispatchedActionsObj.assertDispatchedActions,
+        stateFunctionResult,
+        actualAction,
+        expectedAction,
+        spyDone,
+        spyFail
+      );
+    });
   });
 });

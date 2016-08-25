@@ -47,4 +47,42 @@ describe('toNotDispatchActionsWithState', () => {
 
     expect(result).toBe(performAssertionResult);
   });
+
+  describe('when state is a function', () => {
+    const stateFunctionResult = { newResult: 'newResult' };
+    let stateFunction;
+
+    beforeEach(() => {
+      stateFunction = expect.createSpy().andReturn(stateFunctionResult);
+    });
+
+    it('should execute it with initial state as argument', () => {
+      toNotDispatchActionsWithState(
+        stateFunction,
+        actualAction,
+        expectedAction,
+        spyDone, spyFail
+      );
+
+      expect(stateFunction).toHaveBeenCalledWith(initialState);
+    });
+
+    it('should call performAssertion with result from state function as initial state', () => {
+      toNotDispatchActionsWithState(
+        stateFunction,
+        actualAction,
+        expectedAction,
+        spyDone, spyFail
+      );
+
+      expect(performAssertionObj.performAssertion).toHaveBeenCalledWith(
+        assertNotDispatchedActionsObj.assertNotDispatchedActions,
+        stateFunctionResult,
+        actualAction,
+        expectedAction,
+        spyDone,
+        spyFail
+      );
+    });
+  });
 });
