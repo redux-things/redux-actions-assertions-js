@@ -28,6 +28,14 @@ describe('initialState', () => {
       it('should return registered value', () => {
         expect(getInitialStoreState()).toEqual(initialStoreState);
       });
+
+      it('should return deep clone of registered value', () => {
+        const initialState = getInitialStoreState();
+        initialState.newInitialStoreStateKey = 'newInitialStoreStateKey';
+
+        expect(getInitialStoreState().newInitialStoreStateKey)
+          .toNotEqual(initialState.newInitialStoreStateKey);
+      });
     });
   });
 
