@@ -1,3 +1,4 @@
+import cloneDeep from 'lodash.cloneDeep';
 import { createStore } from 'redux';
 
 let state = null;
@@ -12,7 +13,7 @@ function buildInitialStoreState(reducer) {
 }
 
 function getInitialStoreState() {
-  return state;
+  return cloneDeep(state);
 }
 
 export {
