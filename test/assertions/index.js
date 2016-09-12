@@ -1,5 +1,5 @@
 import expect from 'expect';
-import assertions from '../../src/assertions';
+import { assertions } from '../../src/assertions';
 
 describe('assertions', () => {
   it('should export toDispatchActions', () => {

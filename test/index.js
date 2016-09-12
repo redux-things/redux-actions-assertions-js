@@ -22,4 +22,20 @@ describe('index', () => {
   it('should export assertions', () => {
     expect(assertions).toBeA('object');
   });
+
+  it('should export toDispatchActions', () => {
+    expect(assertions.toDispatchActions).toBeA('function');
+  });
+
+  it('should export toDispatchActionsWithState', () => {
+    expect(assertions.toDispatchActionsWithState).toBeA('function');
+  });
+
+  it('should export toNotDispatchActions', () => {
+    expect(assertions.toNotDispatchActions).toBeA('function');
+  });
+
+  it('should export toNotDispatchActionsWithState', () => {
+    expect(assertions.toNotDispatchActionsWithState).toBeA('function');
+  });
 });
